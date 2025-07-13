@@ -56,7 +56,6 @@ const CoverLetterList = ({ coverLetters }) => {
                     <div className='space-x-2'>
                         <AlertDialog>
                             <Button
-                              variant='outline'
                               className='cursor-pointer'
                               size='icon'
                               onClick={() => router.push(`/ai-cover-letter/${letter._id}`)}
