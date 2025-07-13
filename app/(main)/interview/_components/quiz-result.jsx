@@ -33,7 +33,7 @@ const QuizResult = ({result, hideStartNew = false, onStartNew}) => {
                     <div className='border rounded-lg p-4 space-y-2' key={index}>
                         <div className='flex items-start justify-between gap-2'>
                             <p className='font-medium'>{q.question}</p>
-                            {q.isCorrect ? (
+                            {q.isCorrect == "true" ? (
                                 <CheckCircle2 className='h-5 w-5 text-green-500 flex-shrink-0' />     
                             ) : (
                                 <XCircle className='h-5 w-5 text-red-500 flex-shrink-0' />
@@ -42,7 +42,7 @@ const QuizResult = ({result, hideStartNew = false, onStartNew}) => {
 
                         <div className='text-sm text-muted-foreground'>
                             <p>Your answer: {q.userAnswer}</p>
-                            {!q.isCorrect && <p>Correct answer: {q.answer}</p>}
+                            {q.isCorrect == "false" && <p>Correct answer: {q.correctAnswer}</p>}
                         </div>
 
                         <div className='text-sm bg-muted p-2 rounded'>
