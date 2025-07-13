@@ -17,9 +17,7 @@ import { entriesToMarkdown } from '@/app/lib/helper';
 import MDEditor from '@uiw/react-md-editor';
 import { useUser } from '@clerk/nextjs';
 import { boolean } from 'zod';
-import html2pdf from 'html2pdf.js/dist/html2pdf.bundle.min.js';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
 
 const ResumeBuilder = ({ initialContent }) => {
 
@@ -69,7 +67,7 @@ const ResumeBuilder = ({ initialContent }) => {
             const newContent = getCombinedMarkdownContent();
             setPreviewContent(newContent ? newContent : initialContent);
         }
-    }, [activeTab, formValues]);
+    }, [formValues, activeTab]);
 
     // useEffect(() => {
     //   if (initialContent && !previewContent) {
@@ -116,17 +114,10 @@ const ResumeBuilder = ({ initialContent }) => {
         }
     }, [saveResult, saveError, isSaving])
 
-    const onSubmit = async () => {
-        try {
-            await saveResumeFn(previewContent)
-        } catch (error) {
-            console.error("Save error: ", error);
-        }
-    }
-
     const generatePDF = async () => {
         setIsGenerating(true);
         try {
+            const html2pdf = (await import('html2pdf.js')).default;
             await new Promise((resolve) => setTimeout(resolve, 500));
             const element = resumeRef.current;
             
@@ -152,6 +143,19 @@ const ResumeBuilder = ({ initialContent }) => {
         }
     }
 
+    const onSubmit = async (data) => {
+        try {
+            const formattedContent = previewContent
+             .replace(/\n/g, "\n")
+             .replace(/\n\s*\n/g, "\n\n")
+             .trim();
+
+            await saveResumeFn(previewContent)
+        } catch (error) {
+            console.error("Save error: ", error);
+        }
+    }
+
   return (
     <div className='space-y-2'>
         <div className='flex flex-col md:flex-row justify-between items-center gap-2'>
@@ -162,7 +166,7 @@ const ResumeBuilder = ({ initialContent }) => {
             <div className='space-x-2'>
                 <Button 
                   className='cursor-pointer bg-emerald-800 hover:bg-emerald-900 text-white' 
-                  onClick={onSubmit} 
+                  onClick={handleSubmit(onSubmit)} 
                   disabled={isSaving} 
                 >
                     {isSaving ? (
