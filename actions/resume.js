@@ -64,6 +64,10 @@ export async function getResume() {
         userId: user._id,
     });
 
+    if (!resume) {
+    return { content: '' }; // or return null if you want
+  }
+
     return { content: resume.content };
 }
 
