@@ -64,7 +64,7 @@ export async function getResume() {
         userId: user._id,
     });
 
-    return { content: resume.content ?? "" };
+    return { content: resume.content };
 }
 
 export async function improveWithAI({ current, type }) {

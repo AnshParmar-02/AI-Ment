@@ -160,7 +160,6 @@ export async function getAssessments() {
 
     const plain = JSON.parse(JSON.stringify(assessment));
 
-
     return plain;
     
   } catch (error) {
