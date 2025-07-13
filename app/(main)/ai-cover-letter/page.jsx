@@ -18,7 +18,7 @@ const CoverLetterPage = async () => {
             </h1>
 
             <Link href='/ai-cover-letter/create'>
-                <Button>
+                <Button className='cursor-pointer'>
                     <PlusCircle className='h-4 w-4 mr-2' />
                     Create New
                 </Button>

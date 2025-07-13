@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { saveResume } from '@/actions/resume';
 import { resumeSchema } from '@/app/lib/schema';
@@ -161,8 +161,7 @@ const ResumeBuilder = ({ initialContent }) => {
 
             <div className='space-x-2'>
                 <Button 
-                  className='cursor-pointer' 
-                  variant='destructive' 
+                  className='cursor-pointer bg-emerald-800 hover:bg-emerald-900 text-white' 
                   onClick={onSubmit} 
                   disabled={isSaving} 
                 >
@@ -179,7 +178,10 @@ const ResumeBuilder = ({ initialContent }) => {
                     )}
                     
                 </Button>
-                <Button className='cursor-pointer' onClick={generatePDF} disabled={isGenerating} >
+                <Button 
+                  className='cursor-pointer bg-indigo-800 hover:bg-indigo-900 text-white' 
+                  onClick={generatePDF} 
+                  disabled={isGenerating} >
                     {isGenerating ? (
                         <>
                             <Loader2 className='h-4 w-4 animate-spin' />
