@@ -12,8 +12,8 @@ const CoverLetterPage = async () => {
 
   return (
     <div className='px-5'>
-        <div className='flex flex-col md:flex-row gap-2 items-center justify-between md-5'>
-            <h1 className='font-bold gradient-title text-6xl'>
+        <div className='flex flex-row md:flex-row gap-2 items-center justify-between md-5'>
+            <h1 className='font-bold gradient-title text-5xl'>
                 Cover Letter
             </h1>
 
