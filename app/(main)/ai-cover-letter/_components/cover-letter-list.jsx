@@ -57,13 +57,16 @@ const CoverLetterList = ({ coverLetters }) => {
                         <AlertDialog>
                             <Button
                               variant='outline'
+                              className='cursor-pointer'
                               size='icon'
                               onClick={() => router.push(`/ai-cover-letter/${letter._id}`)}
                             >
                             <Eye className='h-4 w-4' />
                             </Button>
                           <AlertDialogTrigger asChild>
-                            <Button variant='outline' size='icon'>
+                            <Button 
+                              className='cursor-pointer bg-red-700 hover:bg-red-800 text-white'
+                              size='icon'>
                                 <Trash2 className='h-4 w-4' />
                             </Button>
                           </AlertDialogTrigger>
