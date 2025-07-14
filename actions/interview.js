@@ -8,8 +8,23 @@ import assessmentModel from "@/models/assessment";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash"
+    model: "gemini-2.5-flash"
 });
+
+
+async function tryGenerateQuiz(prompt, retries = 3, delay = 3000) {
+  for(let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return result;
+    } catch (error) {
+      console.error(`Attempt ${attempt} failed:`, error.message);
+      if(attempt === retries) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
 
 export const generateQuiz = async () => {
     const { userId } = await auth();
@@ -26,7 +41,7 @@ export const generateQuiz = async () => {
 
     try {
     const prompt = `
-    Generate 3 technical interview questions for a ${
+    Generate 10 technical interview questions for a ${
       user.industry
     } professional${
     user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
@@ -47,7 +62,7 @@ export const generateQuiz = async () => {
     }
   `;
 
-    const result = await model.generateContent(prompt);
+    const result = await tryGenerateQuiz(prompt);
     const response = result.response;
     const text = response.text();
 

@@ -9,8 +9,23 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash"
+    model: "gemini-2.5-flash"
 });
+
+
+async function tryGenerateContent(prompt, retries = 3, delay = 3000) {
+  for(let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return result;
+    } catch (error) {
+      console.error(`Attempt ${attempt} failed:`, error.message);
+      if(attempt === retries) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
 
 export async function generateCoverLetter(data) {
     const { userId } = await auth();
@@ -51,7 +66,7 @@ export async function generateCoverLetter(data) {
   `;
 
   try {
-    const result = await model.generateContent(prompt);
+    const result = await tryGenerateContent(prompt);
     const content = result.response.text().trim();
 
     const coverLetter = await coverLetterModel.create({
@@ -65,7 +80,7 @@ export async function generateCoverLetter(data) {
 
     await userModel.updateOne(
       { _id: user._id },
-      { $push: { coverLetters: coverLetter._id } }
+      { $push: { coverLetters: coverLetter._id }}
     )
 
     return {
