@@ -27,7 +27,6 @@ const QuizList = ({ assessments }) => {
             <CardTitle className="gradient-title text-3xl md:text-4xl">
               Recent Quizzes
             </CardTitle>
-            <CardDescription>Card Description</CardDescription>
           </div>
 
           <Button className='cursor-pointer' onClick={() => router.push("/interview/mock")}>

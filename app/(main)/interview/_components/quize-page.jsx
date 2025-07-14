@@ -154,6 +154,7 @@ const Quiz = () => {
                     <Button
                     onClick={() => setShowExplanation(true)}
                     variant='outline'
+                    className='cursor-pointer'
                     disabled={!answers[currentQuestion]}
                     >
                         Show Explanation
@@ -162,7 +163,7 @@ const Quiz = () => {
 
                 <Button
                     onClick={handleNext}
-                    className='ml-auto'
+                    className='ml-auto cursor-pointer'
                     disabled={!answers[currentQuestion] || savingResult}
                     >
                         {savingResult && (
