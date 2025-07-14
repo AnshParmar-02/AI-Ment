@@ -26,7 +26,7 @@ export const generateQuiz = async () => {
 
     try {
     const prompt = `
-    Generate 10 technical interview questions for a ${
+    Generate 3 technical interview questions for a ${
       user.industry
     } professional${
     user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""
@@ -119,9 +119,15 @@ export async function saveQuizResult(questions, answers, score) {
         userId: user._id,
         quizScore: score,
         questions: questionResult,
-        category: "Technical",
+        category: user.industry,
         improvementTip,
       });
+
+      await userModel.findByIdAndUpdate(
+        user._id,
+        { $push: { assessments: assessment._id } },
+        { new: true },
+      )
 
       const result = {
         ...assessment.toObject(),

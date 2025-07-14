@@ -63,6 +63,11 @@ export async function generateCoverLetter(data) {
         userId: user._id,
     });
 
+    await userModel.updateOne(
+      { _id: user._id },
+      { $push: { coverLetters: coverLetter._id } }
+    )
+
     return {
       ...coverLetter.toObject(),
       _id: coverLetter._id.toString(),

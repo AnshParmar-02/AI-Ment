@@ -32,6 +32,11 @@ export async function saveResume(content) {
             { upsert: true, new: true },
         );
 
+        await userModel.updateOne(
+            { _id: user._id },
+            { $set: { resume: resume._id } }
+        )
+
         revalidatePath('/resume');
         return {
             _id: resume._id.toString(),
