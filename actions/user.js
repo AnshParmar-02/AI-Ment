@@ -54,7 +54,7 @@ export const updateUser = async (data) => {
         }
     };
     } catch (error) {
-        console.log(error.message);
+        console.error("Onboarding check failed:", error);
         throw new Error('Failed to update user ' + error.message);
     }
 }
@@ -77,9 +77,9 @@ export const getUserOnboardingStatus = async () => {
             throw new Error('User not found');
         }
 
-        return { 
-            isOnboarded: !!user?.industry
-        };
+        const isOnboarded = typeof user.industry === 'string' && user.industry.trim() !== '';
+
+    return { isOnboarded };
         
     } catch (error) {
         console.error(error.message);
