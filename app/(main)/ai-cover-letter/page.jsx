@@ -6,8 +6,16 @@ import { Plus, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import CoverLetterList from './_components/cover-letter-list';
+import { getUserOnboardingStatus } from '@/actions/user';
+import { redirect } from 'next/navigation';
 
 const CoverLetterPage = async () => {
+
+    const { isOnboarded } = await getUserOnboardingStatus();
+    if (!isOnboarded) {
+        redirect("/onboarding");
+    }
+
     const coverLetters = await getCoverLetters();
 
   return (
