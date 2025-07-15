@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BounceLoader } from 'react-spinners';
+import { ClimbingBoxLoader } from 'react-spinners';
 
 const Layout = ({children}) => {
   return (
@@ -15,8 +15,8 @@ const Layout = ({children}) => {
             justifyContent: "center",
             alignItems: "center"
           }}>
-          <BounceLoader
-           className='mt-4' color='gray' />
+          <ClimbingBoxLoader
+           className='mt-4' color='gray' size={20} />
            </div>
            }
         >
