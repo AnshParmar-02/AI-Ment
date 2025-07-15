@@ -12,6 +12,19 @@ const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash"
 });
 
+async function tryGenerateInsight(prompt, retries = 3, delay = 3000) {
+  for(let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return result;
+    } catch (error) {
+      console.error(`Attempt ${attempt} failed:`, error.message);
+      if(attempt === retries) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
 export const generateIndustryInsights = async (industry) => {
     const prompt =  `
           Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:
@@ -33,7 +46,7 @@ export const generateIndustryInsights = async (industry) => {
           Include at least 5 skills and trends.
         `;
 
-        const result = await model.generateContent(prompt);
+        const result = await tryGenerateInsight(prompt);
         const response = result.response;
         const text = response.text();
 
